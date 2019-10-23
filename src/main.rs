@@ -22,8 +22,8 @@ fn delete_target(p: String, targetDir: &str) -> std::io::Result<()> {
         let children = path.unwrap().path();
 
         if children.is_dir() {
-            match children.file_name().unwrap().to_str().unwrap() {
-                targetDir => {
+            match children.file_name().unwrap().to_str() {
+                Some(x) if x == targetDir => {
                     let name = children.display().to_string();
                     println!("delete {}", name);
                     // let res = delete_fix(&name, targetDir);
@@ -51,7 +51,7 @@ fn main() -> std::io::Result<()> {
     let defaultValue = String::from("target");
     let targetDir: &String = args.get(2).unwrap_or(&defaultValue);
 
-    println!("delete files name {}", targetDir);
+    println!("delete files pattern {}", targetDir);
 
     delete_target(p.to_string(), targetDir.as_str());
     Ok(())
