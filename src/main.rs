@@ -3,8 +3,8 @@ use std::fs;
 use std::path::Path;
 use std::process::Command;
 
-fn delete_fix(name: &String) {
-    if name.ends_with("target") {
+fn delete_fix(name: &String, targetDir: &str) {
+    if name.ends_with(targetDir) {
         let mut cmd = Command::new("rm")
             .arg("-rf")
             .arg(name)
@@ -15,7 +15,7 @@ fn delete_fix(name: &String) {
     }
 }
 
-fn delete_target(p: String) -> std::io::Result<()> {
+fn delete_target(p: String, targetDir: &str) -> std::io::Result<()> {
     let paths = fs::read_dir(p).unwrap();
 
     for path in paths {
@@ -23,13 +23,13 @@ fn delete_target(p: String) -> std::io::Result<()> {
 
         if children.is_dir() {
             match children.file_name().unwrap().to_str().unwrap() {
-                "target" => {
+                targetDir => {
                     let name = children.display().to_string();
                     println!("delete {}", name);
-                    let res = delete_fix(&name);
+                    // let res = delete_fix(&name, targetDir);
                 }
                 _ => {
-                    delete_target(children.display().to_string());
+                    delete_target(children.display().to_string(), targetDir);
                 }
             }
         }
@@ -43,8 +43,16 @@ fn main() -> std::io::Result<()> {
     if args.len() < 2 {
         panic!("need a dir param");
     }
+    if args.len() >= 3 {
+        println!("args {},{}", args.get(1).unwrap(), args.get(2).unwrap());
+    }
 
     let p = args.get(1).unwrap();
-    delete_target(p.to_string());
+    let defaultValue = String::from("target");
+    let targetDir: &String = args.get(2).unwrap_or(&defaultValue);
+
+    println!("delete files name {}", targetDir);
+
+    delete_target(p.to_string(), targetDir.as_str());
     Ok(())
 }
