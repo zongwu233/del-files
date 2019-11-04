@@ -1,0 +1,2 @@
+## readme
+cargo run xxxdir

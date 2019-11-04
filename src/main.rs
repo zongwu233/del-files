@@ -12,6 +12,7 @@ fn delete_fix(name: &String, targetDir: &str) {
             .expect("failed to execute process");
 
         let res = cmd.stdout;
+
     }
 }
 
@@ -26,7 +27,9 @@ fn delete_target(p: String, targetDir: &str) -> std::io::Result<()> {
                 Some(x) if x == targetDir => {
                     let name = children.display().to_string();
                     println!("delete {}", name);
-                    // let res = delete_fix(&name, targetDir);
+                    let res = delete_fix(&name, targetDir);
+                    //println!("{:?}",res );
+
                 }
                 _ => {
                     delete_target(children.display().to_string(), targetDir);
