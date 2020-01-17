@@ -1,21 +1,20 @@
 use std::env;
 use std::fs;
-use std::path::Path;
 use std::process::Command;
 
-fn delete_fix(name: &String, targetDir: &str) {
-    if name.ends_with(targetDir) {
-        let mut cmd = Command::new("rm")
+fn delete_fix(name: &String, target_dir: &str) {
+    if name.ends_with(target_dir) {
+        let cmd = Command::new("rm")
             .arg("-rf")
             .arg(name)
             .output()
             .expect("failed to execute process");
 
-        let res = cmd.stdout;
+        assert!(cmd.status.success());
     }
 }
 
-fn delete_target(p: String, targetDir: &str) -> std::io::Result<()> {
+fn delete_target(p: String, target_dir: &str) -> std::io::Result<()> {
     let paths = fs::read_dir(p).unwrap();
 
     for path in paths {
@@ -23,14 +22,14 @@ fn delete_target(p: String, targetDir: &str) -> std::io::Result<()> {
 
         if children.is_dir() {
             match children.file_name().unwrap().to_str() {
-                Some(x) if x == targetDir => {
+                Some(x) if x == target_dir => {
                     let name = children.display().to_string();
                     println!("delete {}", name);
-                    let res = delete_fix(&name, targetDir);
+                    delete_fix(&name, target_dir);
                     //println!("{:?}",res );
                 }
                 _ => {
-                    delete_target(children.display().to_string(), targetDir);
+                    delete_target(children.display().to_string(), target_dir).expect("failed");
                 }
             }
         }
@@ -49,11 +48,11 @@ fn main() -> std::io::Result<()> {
     }
 
     let p = args.get(1).unwrap();
-    let defaultValue = String::from("target");
-    let targetDir: &String = args.get(2).unwrap_or(&defaultValue);
+    let default_value = String::from("target");
+    let target_dir: &String = args.get(2).unwrap_or(&default_value);
 
-    println!("delete files pattern {}", targetDir);
+    println!("delete files pattern {}", target_dir);
 
-    delete_target(p.to_string(), targetDir.as_str());
+    delete_target(p.to_string(), target_dir.as_str()).expect("failed");
     Ok(())
 }
