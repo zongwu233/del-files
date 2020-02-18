@@ -4,7 +4,7 @@ a mini tool for deleting target dir files recursively.
 
 ## use
 
-`git clone `
+`git clone git@github.com:zongwu233/del-files.git`
 
 `cargo build`
 
