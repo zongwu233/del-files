@@ -1,10 +1,12 @@
 # del-files
 
-a mini tool for deleting target dir files recursively.
+a mini tool to delete target dir files recursively.
 
 ## use
 
 `git clone git@github.com:zongwu233/del-files.git`
+
+`cd del-files`
 
 `cargo build`
 
