@@ -26,7 +26,5 @@ NOTE: this program can run in Linux and macOS, but NOT adapted for windows.
 
 ## License
 
-License
-
 - [MIT license](https://github.com/zongwu233/del-files/blob/master/LICENSE)
 
