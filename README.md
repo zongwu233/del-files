@@ -26,9 +26,8 @@ NOTE: this program can run in Linux and macOS, but NOT adapted for windows.
 
 ## License
 
-Licensed under either of
+License
 
-- [Apache License, Version 2.0](https://github.com/anp/moxie/blob/master/LICENSE-APACHE)
-- [MIT license](https://github.com/anp/moxie/blob/master/LICENSE-MIT)
+- [MIT license](https://github.com/zongwu233/del-files/blob/master/LICENSE-MIT)
 
 at your option.
